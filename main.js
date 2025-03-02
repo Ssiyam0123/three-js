@@ -11,6 +11,7 @@ const camera = new THREE.PerspectiveCamera(
 
 const renderer = new THREE.WebGLRenderer();
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.setPixelRatio(devicePixelRatio)
 document.body.appendChild(renderer.domElement);
 
 // Create a cube
