@@ -14,12 +14,18 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Create a cube
-const boxGeometry = new THREE.BoxGeometry(1, 1,1);
+const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // Corrected color
 const mesh = new THREE.Mesh(boxGeometry, material);
 
 scene.add(mesh);
 camera.position.z = 5;
 
+function animate() {
+  requestAnimationFrame(animate);
   renderer.render(scene, camera);
-
+  mesh.rotation.x += 0.01;
+  mesh.rotation.y += 0.01;
+  mesh.rotation.z += 0.01;
+}
+animate();
