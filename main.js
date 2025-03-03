@@ -1,40 +1,42 @@
-import * as THREE from "three";
+import * as THREE from 'three';
 
-// Scene setup
+// 1. Create Scene
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(
-  75,
-  window.innerWidth / window.innerHeight,
-  0.1,
-  1000
-);
 
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(devicePixelRatio)
-document.body.appendChild(renderer.domElement);
-
-// Create a cube
-const boxGeometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); 
-const mesh = new THREE.Mesh(boxGeometry, material);
-scene.add(mesh);
+// 2. Create Camera
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 camera.position.z = 5;
 
-const PlaneGeometry = new THREE.PlaneGeometry(5, 5, 10, 10);
-const planeMaterial = new THREE.MeshBasicMaterial({color: 0xff0000})
-const planeMesh = new THREE.Mesh(PlaneGeometry, planeMaterial)
-scene.add(planeMesh)
+// 3. Create Renderer
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+document.body.appendChild(renderer.domElement);
 
+// 4. Create Cube
+const geometry = new THREE.BoxGeometry();
+const material = new THREE.MeshStandardMaterial({ color: 0x00ff00, metalness: 0.5, roughness: 0.2 });
+const cube = new THREE.Mesh(geometry, material);
+scene.add(cube);
 
+//add lights
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.4);
+ scene.add(ambientLight) 
+
+ const directLight = new THREE.DirectionalLight(0xffffff, 1)
+directLight.position.set(5,5,5);
+scene.add(directLight)
+// 5. Animation Loop
 function animate() {
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-  mesh.rotation.x += 0.01;
-  mesh.rotation.y += 0.01;
-  mesh.rotation.z += 0.01;
-
-  planeMesh.rotation.x += 0.01
-  
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
 }
 animate();
+
+// Handle window resize
+window.addEventListener('resize', () => {
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+});
