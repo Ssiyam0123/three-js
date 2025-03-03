@@ -2,7 +2,10 @@ import * as THREE from 'three';
 
 // 1. Create Scene
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x202020);
+// scene.background = new THREE.Color(0x202020);
+
+const textureLoader = new THREE.TextureLoader();
+scene.background = textureLoader.load('./public/20241119_230013 - Copy.jpg')
 
 
 // 2. Create Camera
